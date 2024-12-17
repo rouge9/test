@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-  "start": "node dist/index.js",
-  "dev": "ts-node-dev --respawn src/index.ts",
-  "build": "tsc"
+    "start": "node dist/index.js",
+    "dev": "ts-node-dev --respawn src/index.ts",
+    "build": "tsc"
   },
   "keywords": [],
   "author": "",
@@ -21,11 +21,9 @@
     "typescript": "^5.7.2"
   },
   "dependencies": {
+    "@hookform/resolvers": "^3.9.1",
     "@types/express": "^5.0.0",
     "@types/node": "^22.10.2",
-    "ts-node-dev": "^2.0.0",
-    "typescript": "^5.7.2",
-    "@hookform/resolvers": "^3.9.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.3",
     "cors": "^2.8.5",
@@ -34,6 +32,9 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.8.4",
     "react-hook-form": "^7.54.1",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.7.2",
+    "vm-project": "file:..",
     "zod": "^3.24.1"
   }
 }

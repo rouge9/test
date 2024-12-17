@@ -29,6 +29,7 @@
     "tailwind-merge": "^2.5.5",
     "tailwindcss-animate": "^1.0.7",
     "vechilemanagment": "file:..",
+    "vm-project": "file:..",
     "zod": "^3.24.1"
   },
   "devDependencies": {
