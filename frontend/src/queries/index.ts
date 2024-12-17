@@ -1,14 +1,13 @@
 import { getvehicles, updateprops, VehicleFormInputs } from "@/types";
 import axios from "axios";
+import { VITE_BACKEND_API } from "./api";
 
 export const fetchVehicles = async ({ page, limit }: getvehicles) => {
   const token = localStorage.getItem("token");
   const userId = localStorage.getItem("userId");
 
   const response = await axios.get(
-    `${
-      import.meta.env.VITE_BACKEND_API
-    }/vehicles/${userId}/?page=${page}&limit=${limit}`,
+    `${VITE_BACKEND_API}/vehicles/${userId}/?page=${page}&limit=${limit}`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -28,7 +27,7 @@ export const createvechiles = async (data: VehicleFormInputs) => {
     userId: userId,
   };
 
-  await axios.post(`${import.meta.env.VITE_BACKEND_API}/vehicles`, userData, {
+  await axios.post(`${VITE_BACKEND_API}/vehicles`, userData, {
     headers: {
       Authorization: `Bearer ${token}`, // Attach the Bearer token
     },
@@ -37,7 +36,7 @@ export const createvechiles = async (data: VehicleFormInputs) => {
 
 export const deletevechile = async (id: string) => {
   const token = localStorage.getItem("token");
-  await axios.delete(`${import.meta.env.VITE_BACKEND_API}/vehicles/${id}`, {
+  await axios.delete(`${VITE_BACKEND_API}/vehicles/${id}`, {
     headers: {
       Authorization: `Bearer ${token}`, // Attach the Bearer token
     },
@@ -47,7 +46,7 @@ export const deletevechile = async (id: string) => {
 export const updatevechile = async ({ id, data }: updateprops) => {
   const token = localStorage.getItem("token");
 
-  await axios.put(`${import.meta.env.VITE_BACKEND_API}/vehicles/${id}`, data, {
+  await axios.put(`${VITE_BACKEND_API}/vehicles/${id}`, data, {
     headers: {
       Authorization: `Bearer ${token}`, // Attach the Bearer token
     },
@@ -59,7 +58,7 @@ export const searchVechile = async (q: string) => {
   const userId = localStorage.getItem("userId");
 
   const response = await axios.post(
-    `${import.meta.env.VITE_BACKEND_API}/vehicles/${userId}/search`,
+    `${VITE_BACKEND_API}/vehicles/${userId}/search`,
     { q },
     {
       headers: {

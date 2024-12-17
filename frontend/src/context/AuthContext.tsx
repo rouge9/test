@@ -2,6 +2,7 @@
 import React, { createContext, useContext, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { User } from "@/types";
+import { VITE_BACKEND_API } from "@/queries/api";
 
 interface AuthContextType {
   user: User;
@@ -24,16 +25,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const login = async (username: string, password: string) => {
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_BACKEND_API}/login`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ username, password }),
-        }
-      );
+      const response = await fetch(`${VITE_BACKEND_API}/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username, password }),
+      });
 
       // Check if the response is okay (status code 200-299)
       if (!response.ok) {
@@ -55,16 +53,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   };
   const register = async (username: string, password: string) => {
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_BACKEND_API}/register`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ username, password }),
-        }
-      );
+      const response = await fetch(`${VITE_BACKEND_API}/register`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username, password }),
+      });
 
       if (!response.ok) {
         const errorText = await response.text();

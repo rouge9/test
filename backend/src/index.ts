@@ -5,7 +5,7 @@ import dotenv from "dotenv";
 import vechilesRoute from "./routes/vechiles";
 import auth from "./routes/auth";
 import path from "path";
-dotenv.config();
+dotenv.config({ path: "../.env" });
 
 const app = express();
 
