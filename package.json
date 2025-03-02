@@ -15,7 +15,7 @@
     "build": "concurrently \"npm run installdep\" \"npm run build:backend\" \"npm run build:frontend\"",
     "start:backend": "cd backend && npm run start",
     "start:frontend": "cd frontend && npm run preview",
-    "start": "concurrently \"npm run start:backend\" \"npm run start:frontend\""
+    "start": "concurrently  \"npm run build\" \"npm run start:backend\" \"npm run start:frontend\""
   },
   "keywords": [],
   "author": "",
