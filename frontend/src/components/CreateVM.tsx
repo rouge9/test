@@ -30,43 +30,46 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
-import { TableVehchile, VehicleFormInputs } from "@/types";
-import { createvechiles, updatevechile } from "@/queries";
+import { TableTickets, TicketsFormInputs } from "@/types";
+import { createtickets, updatetickets } from "@/queries";
 
-// eslint-disable-next-line react-refresh/only-export-components
-export const vehicleSchema = z.object({
-  name: z.string().min(1, "Vehicle name is required"),
+export const TicketsSchema = z.object({
+  title: z.string().min(1, "Ticket Title is required"),
   status: z.string().min(1, "Status is required"),
+  description: z.string().min(1, "Description is required"),
 });
 
 type props = {
   currentPage: number;
-  vehicleData?: TableVehchile;
+  TicketsData?: TableTickets;
 };
 
-const CreateVM = ({ currentPage, vehicleData }: props) => {
+const CreateVM = ({ currentPage, TicketsData }: props) => {
   const { toast } = useToast();
   const [open, setOpen] = useState(false);
   const queryClient = useQueryClient();
-  const userId = localStorage.getItem("userId");
 
-  const form = useForm<VehicleFormInputs>({
-    resolver: zodResolver(vehicleSchema),
-    defaultValues: vehicleData
-      ? { name: vehicleData.name, status: vehicleData.status, userId }
-      : { name: "", status: "", userId },
+  const form = useForm<TicketsFormInputs>({
+    resolver: zodResolver(TicketsSchema),
+    defaultValues: TicketsData
+      ? {
+          title: TicketsData.title,
+          status: TicketsData.status,
+          description: TicketsData.description,
+        }
+      : { title: "", status: "", description: "" },
   });
 
   const mutation = useMutation({
-    mutationFn: vehicleData ? updatevechile : createvechiles,
+    mutationFn: TicketsData ? updatetickets : createtickets,
     onSuccess: () => {
       form.reset();
-      queryClient.invalidateQueries({ queryKey: ["vehicles", currentPage] });
+      queryClient.invalidateQueries({ queryKey: ["tickets", currentPage] });
       toast({
-        title: vehicleData ? "Update Success" : "Create Success",
-        description: vehicleData
-          ? "Vehicle updated successfully"
-          : "Vehicle created successfully",
+        title: TicketsData ? "Update Success" : "Create Success",
+        description: TicketsData
+          ? "Tickets updated successfully"
+          : "Tickets created successfully",
         variant: "default",
         className: "bg-green-500 text-white",
       });
@@ -75,7 +78,7 @@ const CreateVM = ({ currentPage, vehicleData }: props) => {
     onError: () => {
       toast({
         title: "Error",
-        description: vehicleData
+        description: TicketsData
           ? "Failed to update vehicle"
           : "Failed to create vehicle",
         variant: "destructive",
@@ -83,9 +86,10 @@ const CreateVM = ({ currentPage, vehicleData }: props) => {
     },
   });
 
-  const onSubmit = (data: VehicleFormInputs) => {
-    if (vehicleData) {
-      mutation.mutate({ id: vehicleData._id, data: data });
+  const onSubmit = (data: TicketsFormInputs) => {
+    console.log(data);
+    if (TicketsData) {
+      mutation.mutate({ id: TicketsData._id, data: data });
     } else {
       mutation.mutate(data);
     }
@@ -94,7 +98,7 @@ const CreateVM = ({ currentPage, vehicleData }: props) => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        {vehicleData ? (
+        {TicketsData ? (
           <Button className="bg-white text-blue-800 hover:bg-blue-600 hover:text-white">
             <Pen />
           </Button>
@@ -112,13 +116,30 @@ const CreateVM = ({ currentPage, vehicleData }: props) => {
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <FormField
               control={form.control}
-              name="name"
+              name="title"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Name</FormLabel>
+                  <FormLabel>Title</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="name"
+                      placeholder="Enter Tickets Title"
+                      className="border-muted py-2 rounded-lg"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="description"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Description</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Enter Tickets Description"
                       className="border-muted py-2 rounded-lg"
                       {...field}
                     />
@@ -142,8 +163,9 @@ const CreateVM = ({ currentPage, vehicleData }: props) => {
                         <SelectValue placeholder="Select a Status" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="active">Active</SelectItem>
-                        <SelectItem value="inactive">Inactive</SelectItem>
+                        <SelectItem value="Open">Open</SelectItem>
+                        <SelectItem value="In Progress">In Progress</SelectItem>
+                        <SelectItem value="Closed">Closed</SelectItem>
                       </SelectContent>
                     </Select>
                   </FormControl>
@@ -160,7 +182,7 @@ const CreateVM = ({ currentPage, vehicleData }: props) => {
                 {mutation.isPending && (
                   <Loader2 className="mr-2 animate-spin" />
                 )}
-                {vehicleData ? <span>Update</span> : <span>Create</span>}
+                {TicketsData ? <span>Update</span> : <span>Create</span>}
               </Button>
             </div>
           </form>

@@ -1,4 +1,4 @@
-import { vehicleSchema } from "@/components/CreateVM";
+import { TicketsSchema } from "@/components/CreateVM";
 
 export interface LoginFormProps {
   setLogin: (isLogin: boolean) => void;
@@ -13,12 +13,13 @@ export interface User {
   password: string;
 }
 
-export interface TableVehchile {
+export interface TableTickets {
+  user: any;
   index: number;
   _id: string;
-  name: string;
+  title: string;
+  description: string;
   status: string;
-  updatedAt: string;
 }
 
 export type VmTableProps = {
@@ -39,7 +40,7 @@ export type deletevehicle = {
   id: string;
 };
 
-export type VehicleFormInputs = z.infer<typeof vehicleSchema>;
+export type TicketsFormInputs = z.infer<typeof TicketsSchema>;
 
 export type updateprops = {
   id: string;

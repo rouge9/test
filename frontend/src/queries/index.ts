@@ -1,13 +1,11 @@
-import { getvehicles, updateprops, VehicleFormInputs } from "@/types";
-import axios from "axios";
-import { VITE_BACKEND_API } from "./api";
+import api from "@/api/client";
+import { getvehicles, TicketsFormInputs, updateprops } from "@/types";
 
-export const fetchVehicles = async ({ page, limit }: getvehicles) => {
+export const fetchTickets = async ({ page, limit }: getvehicles) => {
   const token = localStorage.getItem("token");
-  const userId = localStorage.getItem("userId");
 
-  const response = await axios.get(
-    `${VITE_BACKEND_API}/vehicles/${userId}/?page=${page}&limit=${limit}`,
+  const response = await api.get(
+    `${import.meta.env.VITE_BACKEND_API}/tickets/?page=${page}&limit=${limit}`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -18,16 +16,16 @@ export const fetchVehicles = async ({ page, limit }: getvehicles) => {
   return response.data;
 };
 
-export const createvechiles = async (data: VehicleFormInputs) => {
+export const createtickets = async (data: TicketsFormInputs) => {
   const token = localStorage.getItem("token");
-  const userId = localStorage.getItem("userId");
+
   const userData = {
-    name: data.name,
+    title: data.title,
     status: data.status,
-    userId: userId,
+    description: data.description,
   };
 
-  await axios.post(`${VITE_BACKEND_API}/vehicles`, userData, {
+  await api.post(`${import.meta.env.VITE_BACKEND_API}/tickets`, userData, {
     headers: {
       Authorization: `Bearer ${token}`, // Attach the Bearer token
     },
@@ -36,17 +34,17 @@ export const createvechiles = async (data: VehicleFormInputs) => {
 
 export const deletevechile = async (id: string) => {
   const token = localStorage.getItem("token");
-  await axios.delete(`${VITE_BACKEND_API}/vehicles/${id}`, {
+  await api.delete(`${import.meta.env.VITE_BACKEND_API}/vehicles/${id}`, {
     headers: {
       Authorization: `Bearer ${token}`, // Attach the Bearer token
     },
   });
 };
 
-export const updatevechile = async ({ id, data }: updateprops) => {
+export const updatetickets = async ({ id, data }: updateprops) => {
   const token = localStorage.getItem("token");
 
-  await axios.put(`${VITE_BACKEND_API}/vehicles/${id}`, data, {
+  await api.put(`${import.meta.env.VITE_BACKEND_API}/tickets/${id}`, data, {
     headers: {
       Authorization: `Bearer ${token}`, // Attach the Bearer token
     },
@@ -57,8 +55,8 @@ export const searchVechile = async (q: string) => {
   const token = localStorage.getItem("token");
   const userId = localStorage.getItem("userId");
 
-  const response = await axios.post(
-    `${VITE_BACKEND_API}/vehicles/${userId}/search`,
+  const response = await api.post(
+    `${import.meta.env.VITE_BACKEND_API}/vehicles/${userId}/search`,
     { q },
     {
       headers: {

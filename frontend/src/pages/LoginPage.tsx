@@ -1,5 +1,6 @@
 import LoginForm from "@/components/LoginForm";
 import RegForm from "@/components/RegForm";
+import { Ticket } from "lucide-react";
 import { useState } from "react";
 
 const LoginPage = () => {
@@ -10,17 +11,18 @@ const LoginPage = () => {
       <div className="bg-gradient-to-b from-blue-600 to-blue-900 text-white p-8 flex flex-col justify-center items-center md:w-3/5">
         <div className="mb-8">
           <div className="flex gap-5 items-center justify-center">
-            <img
+            {/* <img
               src="/logo.png"
               alt="logo"
               className="w-20 h-20 md:w-52 md:h-52"
-            />
+            /> */}
+            <Ticket className="w-20 h-20 md:w-52 md:h-52" />
             <div className="flex flex-col"></div>
           </div>
         </div>
         <div className="flex flex-col items-start justify-center">
           <h1 className="text-4xl font-bold mb-4 text-center ">
-            Vehicle Managment
+            Ticket System
           </h1>
         </div>
       </div>

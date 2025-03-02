@@ -1,4 +1,4 @@
-import { TableVehchile, VmTableProps } from "@/types";
+import { TableTickets, VmTableProps } from "@/types";
 import {
   createColumnHelper,
   flexRender,
@@ -7,10 +7,10 @@ import {
 } from "@tanstack/react-table";
 
 import Loader from "./Loader";
-import { deletevechile } from "@/queries";
-import { useToast } from "@/hooks/use-toast";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import DeleteDialog from "./DeleteDialog";
+// import { deletevechile } from "@/queries";
+// import { useToast } from "@/hooks/use-toast";
+// import { useMutation, useQueryClient } from "@tanstack/react-query";
+// import DeleteDialog from "./DeleteDialog";
 import CreateVM from "./CreateVM";
 import { Button } from "./ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
@@ -23,7 +23,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-const columnHelper = createColumnHelper<TableVehchile>();
+const columnHelper = createColumnHelper<TableTickets>();
 
 const columns = [
   columnHelper.accessor("index", {
@@ -34,19 +34,19 @@ const columns = [
     cell: (info) => info.getValue().slice(0, 5),
     header: () => <span>ID</span>,
   }),
-  columnHelper.accessor("name", {
+  columnHelper.accessor("title", {
     cell: (info) => info.getValue(),
-    header: () => <span>Name</span>,
+    header: () => <span>Title</span>,
+  }),
+
+  columnHelper.accessor("description", {
+    cell: (info) => info.getValue().slice(0, 10),
+    header: () => <span>description</span>,
   }),
 
   columnHelper.accessor("status", {
     cell: (info) => info.getValue(),
     header: () => <span>Status</span>,
-  }),
-
-  columnHelper.accessor("updatedAt", {
-    cell: (info) => info.getValue().slice(0, 10),
-    header: () => <span>Last Updated</span>,
   }),
 ];
 
@@ -58,9 +58,9 @@ export default function VmTable({
   isError,
   totalPages,
 }: VmTableProps) {
-  const { toast } = useToast();
+  // const { toast } = useToast();
 
-  const queryClient = useQueryClient();
+  // const queryClient = useQueryClient();
 
   const table = useReactTable({
     data: data,
@@ -77,30 +77,30 @@ export default function VmTable({
     setCurrentPage(page);
   };
 
-  const deleteMutation = useMutation({
-    mutationFn: deletevechile,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["vehicles", currentPage] });
-      toast({
-        title: "Success",
-        description: "Vehicle deleted successfully",
-        variant: "default",
-        className: "bg-green-500 text-white",
-      });
-    },
-    onError: () => {
-      toast({
-        title: "Error",
-        description: "Failed to delete vehicle",
-        variant: "destructive",
-      });
-    },
-  });
+  // const deleteMutation = useMutation({
+  //   mutationFn: deletevechile,
+  //   onSuccess: () => {
+  //     queryClient.invalidateQueries({ queryKey: ["tickets", currentPage] });
+  //     toast({
+  //       title: "Success",
+  //       description: "Vehicle deleted successfully",
+  //       variant: "default",
+  //       className: "bg-green-500 text-white",
+  //     });
+  //   },
+  //   onError: () => {
+  //     toast({
+  //       title: "Error",
+  //       description: "Failed to delete vehicle",
+  //       variant: "destructive",
+  //     });
+  //   },
+  // });
 
-  const handleDelete = (data: TableVehchile) => {
-    deleteMutation.mutate(data._id);
-  };
-
+  // const handleDelete = (data: TableTickets) => {
+  //   deleteMutation.mutate(data._id);
+  // };
+  const role = localStorage.getItem("role");
   return (
     <>
       {isPending || isError ? (
@@ -175,6 +175,11 @@ export default function VmTable({
                           )}
                     </TableHead>
                   ))}
+                  {role === "admin" && (
+                    <TableHead className="text-white font-bold">
+                      Assigned To
+                    </TableHead>
+                  )}
                 </TableRow>
               ))}
             </TableHeader>
@@ -192,21 +197,28 @@ export default function VmTable({
                       )}
                     </TableCell>
                   ))}
+                  {role === "admin" && (
+                    <TableCell className="text-white">
+                      <span>{row.original?.user?.email}</span>
+                    </TableCell>
+                  )}
                   <TableCell>
-                    <div className="flex space-x-2">
-                      <CreateVM
-                        currentPage={currentPage}
-                        vehicleData={row.original}
-                      />
+                    {role === "admin" && (
+                      <div className="flex space-x-2">
+                        <CreateVM
+                          currentPage={currentPage}
+                          TicketsData={row.original}
+                        />
 
-                      <DeleteDialog
-                        onConfirm={() => {
-                          handleDelete(row.original);
-                        }}
-                        message="Are you sure you want to delete this vehicle?"
-                        isDeleting={deleteMutation.isPending}
-                      />
-                    </div>
+                        {/* <DeleteDialog
+                          onConfirm={() => {
+                            handleDelete(row.original);
+                          }}
+                          message="Are you sure you want to delete this vehicle?"
+                          isDeleting={deleteMutation.isPending}
+                        /> */}
+                      </div>
+                    )}
                   </TableCell>
                 </TableRow>
               ))}

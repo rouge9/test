@@ -8,7 +8,7 @@ import { RegFormProps } from "@/types";
 import { useToast } from "@/hooks/use-toast";
 
 const RegForm: React.FC<RegFormProps> = ({ setLogin }) => {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const { register } = useAuth();
@@ -17,10 +17,10 @@ const RegForm: React.FC<RegFormProps> = ({ setLogin }) => {
   // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(username, password);
+    console.log(email, password);
     setLoading(true);
     try {
-      await register(username, password);
+      await register(email, password);
     } catch (error) {
       console.error(error);
       toast({
@@ -40,7 +40,7 @@ const RegForm: React.FC<RegFormProps> = ({ setLogin }) => {
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="phone" className="sr-only">
-              Username
+              Email
             </Label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -48,10 +48,10 @@ const RegForm: React.FC<RegFormProps> = ({ setLogin }) => {
               </div>
               <Input
                 type="text"
-                placeholder="Username"
-                value={username}
+                placeholder="email"
+                value={email}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  setUsername(e.target.value)
+                  setEmail(e.target.value)
                 }
                 className="w-full pl-10 py-8 border-muted rounded-full"
                 required

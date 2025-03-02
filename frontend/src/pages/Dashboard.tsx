@@ -1,12 +1,12 @@
 import Layout from "@/components/Layout";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+// import { Input } from "@/components/ui/input";
 import { useAuth } from "@/context/AuthContext";
-import { LogOut, Search } from "lucide-react";
+import { LogOut } from "lucide-react";
 import VmTable from "@/components/VmTable";
 import CreateVM from "@/components/CreateVM";
 import { useState } from "react";
-import { fetchVehicles, searchVechile } from "@/queries";
+import { fetchTickets, searchVechile } from "@/queries";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
 export default function Dashboard() {
@@ -15,18 +15,19 @@ export default function Dashboard() {
     logout();
   };
 
-  const [seacrhQuery, setSearchQuery] = useState<string>("");
-  const [seacrhResult, setSearchResult] = useState<any>(null);
-  const username = localStorage.getItem("username");
+  // const [seacrhQuery, setSearchQuery] = useState<string>("");
+  // const [seacrhResult, setSearchResult] = useState<any>(null);
+  // const username = localStorage.getItem("username");
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
 
   const { data, isPending, isError } = useQuery({
-    queryKey: ["vehicles", currentPage],
-    queryFn: () => fetchVehicles({ page: currentPage, limit: itemsPerPage }),
+    queryKey: ["tickets", currentPage],
+    queryFn: () => fetchTickets({ page: currentPage, limit: itemsPerPage }),
     // keepPreviousData: true,
   });
+  console.log(data);
 
   const mutation = useMutation({
     mutationFn: searchVechile,
@@ -35,13 +36,13 @@ export default function Dashboard() {
     },
   });
 
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!seacrhQuery) return;
-    mutation.mutate(seacrhQuery);
-    setSearchQuery("");
-    setSearchResult(mutation?.data);
-  };
+  // const handleSearch = (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   if (!seacrhQuery) return;
+  //   mutation.mutate(seacrhQuery);
+  //   setSearchQuery("");
+  //   setSearchResult(mutation?.data);
+  // };
 
   return (
     <Layout>
@@ -54,7 +55,7 @@ export default function Dashboard() {
                 src="https://avatar.iran.liara.run/public"
                 className="w-10 h-10 bg-gray-200 rounded-full"
               />
-              <span>Welcome {username}</span>
+              <span>Welcome {}</span>
               <Button
                 variant="ghost"
                 className="hover:bg-red-700"
@@ -66,11 +67,11 @@ export default function Dashboard() {
             </div>
           </header>
           <h1 className="3xl:text-4xl text-2xl font-bold text-center md:text-start text-white pb-8">
-            Vehicle Management Center
+            Ticket Management Center
           </h1>
 
           <div className="flex flex-col md:flex-row gap-5 items-center justify-between mb-8">
-            <div className="relative w-64">
+            {/* <div className="relative w-64">
               <Input
                 type="text"
                 placeholder="Search by name and status"
@@ -83,11 +84,12 @@ export default function Dashboard() {
                 size={20}
                 onClick={handleSearch}
               />
-            </div>
+            </div> */}
+            <div />
             <CreateVM currentPage={currentPage} />
           </div>
 
-          {data?.vehicles.length <= 0 ? (
+          {data?.tickets.length <= 0 ? (
             <div className="flex-1 flex flex-col items-center justify-center">
               <div className="w-60 h-60  rounded-full flex items-center justify-center mb-4">
                 <img
@@ -103,7 +105,7 @@ export default function Dashboard() {
             </div>
           ) : (
             <VmTable
-              data={seacrhResult ? seacrhResult : data?.vehicles}
+              data={data?.tickets}
               setCurrentPage={setCurrentPage}
               currentPage={currentPage}
               isPending={isPending || mutation.isPending}

@@ -1,4 +1,4 @@
-import { Home } from "lucide-react";
+import { Home, Ticket } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -6,13 +6,14 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     <div className="flex flex-col md:flex-row h-screen bg-blue-700 overflow-hidden">
       <aside className="md:flex hidden w-20 bg-blue-700 pt-8 pl-8 flex-col items-center space-y-4 border-none">
         <div className="flex flex-col items-center justify-center pb-8">
-          <Link to="/">
-            <img
+          <Link to="/" className="flex flex-col items-center justify-center">
+            {/* <img
               src="/logo.png"
               alt="logo"
               className="w-10 h-10 cursor-pointer"
-            />
-            <span className="text-white font-bold">VM</span>
+            /> */}
+            <Ticket className="w-10 h-10 text-black" />
+            <span className="text-white font-bold">TS</span>
           </Link>
         </div>
         <div className="flex flex-col justify-center items-center">
