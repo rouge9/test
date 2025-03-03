@@ -8,8 +8,8 @@ import { LoginFormProps } from "@/types";
 import { useToast } from "@/hooks/use-toast";
 
 const LoginForm: React.FC<LoginFormProps> = ({ setLogin }) => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("admin");
+  const [password, setPassword] = useState("123");
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
   const { toast } = useToast();
