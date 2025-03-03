@@ -13,7 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.logout = exports.refreshTokenHandler = exports.login = exports.signup = void 0;
-const User_1 = __importDefault(require("../models/User"));
+const user_1 = __importDefault(require("../models/user"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config({ path: "../../.env" });
@@ -34,7 +34,7 @@ const generateRefreshToken = (user) => {
 const signup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, password, role } = req.body;
     try {
-        const user = new User_1.default({ email, password, role });
+        const user = new user_1.default({ email, password, role });
         yield user.save();
         res.status(201).json({ message: "User created" });
     }
@@ -46,7 +46,7 @@ exports.signup = signup;
 const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, password } = req.body;
     try {
-        const user = yield User_1.default.findOne({ email });
+        const user = yield user_1.default.findOne({ email });
         if (!user || !(yield user.comparePassword(password))) {
             res.status(401).json({ message: "Invalid credentials" });
             return;

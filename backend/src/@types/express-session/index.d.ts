@@ -1,5 +1,5 @@
 import "express-session";
-import { IUser } from "../../models/User";
+import { IUser } from "../../models/user";
 
 declare module "express-session" {
   interface SessionData {
