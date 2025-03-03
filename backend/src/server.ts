@@ -13,12 +13,12 @@ dotenv.config({ path: "../.env" });
 connectDB();
 
 const app = express();
-// app.use(
-//   cors({
-//     origin: "https://test-c7i.pages.dev/",
-//     credentials: true,
-//   })
-// );
+app.use(
+  cors({
+    origin: "https://test-c7i.pages.dev",
+    credentials: true,
+  })
+);
 app.use(express.json());
 
 // Session middleware setup
