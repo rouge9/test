@@ -15,7 +15,7 @@ connectDB();
 const app = express();
 app.use(
   cors({
-    origin: "https://test-gu6z.onrender.com",
+    origin: "https://test-c7i.pages.dev/",
     credentials: true,
   })
 );
